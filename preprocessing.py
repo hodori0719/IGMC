@@ -114,8 +114,8 @@ def sparse_to_tuple(sparse_mx):
     return coords, values, shape
 
 
-def create_trainvaltest_split(dataset, seed=1234, testing=False, datasplit_path=None, 
-                              datasplit_from_file=False, verbose=True, rating_map=None, 
+def create_trainvaltest_split(dataset, seed=1234, testing=False, datasplit_path=None,
+                              datasplit_from_file=False, verbose=True, rating_map=None,
                               post_rating_map=None, ratio=1.0):
     """
     Splits data set into train/val/test sets from full bipartite adjacency matrix. Shuffling of dataset is done in
@@ -193,7 +193,7 @@ def create_trainvaltest_split(dataset, seed=1234, testing=False, datasplit_path=
         data = np.array([post_rating_map[r] for r in class_values[train_labels]]) + 1.
     data = data.astype(np.float32)
 
-    rating_mx_train = sp.csr_matrix((data, [u_train_idx, v_train_idx]), 
+    rating_mx_train = sp.csr_matrix((data, [u_train_idx, v_train_idx]),
                                     shape=[num_users, num_items], dtype=np.float32)
 
     return u_features, v_features, rating_mx_train, train_labels, u_train_idx, v_train_idx, \
@@ -457,7 +457,7 @@ def load_official_trainvaltest_split(dataset, testing=False, rating_map=None, po
         train_labels = np.hstack([train_labels, val_labels])
         # for adjacency matrix construction
         train_idx = np.hstack([train_idx, val_idx])
-    
+
     class_values = np.sort(np.unique(ratings))
 
     # make training adjacency matrix
@@ -513,7 +513,7 @@ def load_official_trainvaltest_split(dataset, testing=False, rating_map=None, po
             u_id = row['user id']
             if u_id in u_dict.keys():
                 # age
-                u_features[u_dict[u_id], 0] = row['age'] / np.float(age_max)
+                u_features[u_dict[u_id], 0] = row['age'] / float(age_max)
                 # gender
                 u_features[u_dict[u_id], 1] = gender_dict[row['gender']]
                 # occupation
