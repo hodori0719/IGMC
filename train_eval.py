@@ -150,6 +150,8 @@ def num_graphs(data):
 
 def train(model, optimizer, loader, device, regression=False, ARR=0,
           show_progress=False, epoch=None):
+    print(torch.cuda.is_available())
+    print(device)
     model.train()
     total_loss = 0
     if show_progress:
@@ -174,23 +176,23 @@ def train(model, optimizer, loader, device, regression=False, ARR=0,
                     gconv.comp,
                     gconv.weight.view(gconv.num_bases, -1)
                 ).view(gconv.num_relations, gconv.in_channels, gconv.out_channels)
-                # for anchor in range(gconv.num_relations):
-                #     positive = []
-                #     for dist in [-1, 1]:
-                #         sample = anchor + dist
-                #         if sample >= 0 and sample < gconv.num_relations:
-                #             positive.append(sample)
-                #     negative = []
-                #     for dist in [-4, -3, -2, 2, 3, 4]:
-                #         sample = anchor + dist
-                #         if sample >= 0 and sample < gconv.num_relations:
-                #             negative.append(sample)
-                #     for pos_sample in positive:
-                #         for neg_sample in negative:
-                #             reg_loss = torch.max(torch.sum((w[anchor, :, :] - w[pos_sample, :, :])**2) - torch.sum((w[anchor, :, :] - w[neg_sample, :, :])**2) + margin, torch.tensor(0.0))
-                            # loss += ARR * reg_loss
-                reg_loss = torch.sum((w[1:, :, :] - w[:-1, :, :])**2)
-                loss += ARR * reg_loss
+                for anchor in range(gconv.num_relations):
+                    positive = []
+                    for dist in [-1, 1]:
+                        sample = anchor + dist
+                        if sample >= 0 and sample < gconv.num_relations:
+                            positive.append(sample)
+                    negative = []
+                    for dist in [-4, -3, -2, 2, 3, 4]:
+                        sample = anchor + dist
+                        if sample >= 0 and sample < gconv.num_relations:
+                            negative.append(sample)
+                    for pos_sample in positive:
+                        for neg_sample in negative:
+                            reg_loss = torch.max(torch.sum((w[anchor, :, :] - w[pos_sample, :, :])**2) - torch.sum((w[anchor, :, :] - w[neg_sample, :, :])**2) + margin, torch.tensor(0.0))
+                            loss += ARR * reg_loss
+                # reg_loss = torch.sum((w[1:, :, :] - w[:-1, :, :])**2)
+                # loss += ARR * reg_loss
         loss.backward()
         total_loss += loss.item() * num_graphs(data)
         optimizer.step()
