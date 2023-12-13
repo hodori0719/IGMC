@@ -197,6 +197,7 @@ class IGMC(GNN):
                 training=self.training
             )
         concat_states = []
+        # TODO: PASS IN AVERAGE RATINGS AS FEATURES
         for conv in self.convs:
             x = torch.tanh(conv(x, edge_index, edge_type))
             concat_states.append(x)
