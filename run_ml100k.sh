@@ -5,6 +5,7 @@
 #SBATCH --mail-user=jhy24@yale.edu
 #SBATCH --mail-type=ALL
 #SBATCH --gpus=2
+#SBATCH --partition=gpu
 
 module load CUDA
 module load cuDNN
