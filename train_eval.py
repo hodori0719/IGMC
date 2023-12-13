@@ -164,12 +164,29 @@ def train(model, optimizer, loader, device, regression=False, ARR=0,
             loss = F.nll_loss(out, data.y.view(-1))
         if show_progress:
             pbar.set_description('Epoch {}, batch loss: {}'.format(epoch, loss.item()))
+        # TODO: MODIFY ADJACENT RATING REGULARIZATION
+        margin = 0.01
         if ARR != 0:
             for gconv in model.convs:
                 w = torch.matmul(
                     gconv.comp,
                     gconv.weight.view(gconv.num_bases, -1)
                 ).view(gconv.num_relations, gconv.in_channels, gconv.out_channels)
+                # for anchor in range(gconv.num_relations):
+                #     positive = []
+                #     for dist in [-1, 1]:
+                #         sample = anchor + dist
+                #         if sample >= 0 and sample < gconv.num_relations:
+                #             positive.append(sample)
+                #     negative = []
+                #     for dist in [-4, -3, -2, 2, 3, 4]:
+                #         sample = anchor + dist
+                #         if sample >= 0 and sample < gconv.num_relations:
+                #             negative.append(sample)
+                #     for pos_sample in positive:
+                #         for neg_sample in negative:
+                #             reg_loss = torch.max(torch.sum((w[anchor, :, :] - w[pos_sample, :, :])**2) - torch.sum((w[anchor, :, :] - w[neg_sample, :, :])**2) + margin, torch.tensor(0.0))
+                            # loss += ARR * reg_loss
                 reg_loss = torch.sum((w[1:, :, :] - w[:-1, :, :])**2)
                 loss += ARR * reg_loss
         loss.backward()
