@@ -39,12 +39,14 @@ def train_multiple_epochs(train_dataset,
 
     if train_dataset.__class__.__name__ == 'MyDynamicDataset':
         num_workers = mp.cpu_count()
+        num_workers = 2
     else:
         num_workers = 2
     train_loader = DataLoader(train_dataset, batch_size, shuffle=True,
                               num_workers=num_workers)
     if test_dataset.__class__.__name__ == 'MyDynamicDataset':
         num_workers = mp.cpu_count()
+        num_workers = 2
     else:
         num_workers = 2
     test_loader = DataLoader(test_dataset, batch_size, shuffle=False,
