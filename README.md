@@ -1,4 +1,4 @@
-IGMC -- Inductive Graph-based Matrix Completion
+IGMC+TARR - Inductive Graph Matrix Completion with Triplet-Adjacent Rating Regularization.
 ===============================================================================
 
 Requirements
