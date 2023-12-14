@@ -44,6 +44,13 @@ def logger(info, model, optimizer):
         if optimizer is not None:
             torch.save(optimizer.state_dict(), optimizer_name)
 
+class MyDataParallel(nn.DataParallel):
+    def __getattr__(self, name):
+        try:
+            return super().__getattr__(name)
+        except AttributeError:
+            return getattr(self.module, name)
+
 if __name__ == '__main__':
 
     # Arguments
