@@ -17,6 +17,6 @@ source activate igmc
 
 for i in $(seq 1 3)  # to run with different seeds
 do
-  python Main.py --data-name ml_100k --save-appendix _mnph200 --data-appendix _mnph200 --epochs 40  --max-nodes-per-hop 20 --ARR 0 --seed ${i} --testing --ensemble --dynamic-train
+  python Main.py --data-name ml_100k --save-appendix _mnph200 --data-appendix _mnph200 --epochs 40  --max-nodes-per-hop 20 --seed ${i} --testing --ensemble --dynamic-train
 done
 
