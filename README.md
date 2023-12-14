@@ -15,6 +15,8 @@ We can create a conda environment containing all necessary dependencies as follo
     pip install h5py
     pip install matplotlib
 
+The requirements.txt created with pip freeze is also in the repository.
+
 Usages
 ------
 
