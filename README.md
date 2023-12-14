@@ -28,7 +28,7 @@ To train and test on Douban, type:
 
 To train on MovieLens-100K, type:
 
-    python Main.py --data-name ml_100k --save-appendix _mnph200 --data-appendix _mnph200 --epochs 80 --max-nodes-per-hop 200 --testing --ensemble --dynamic-train
+    python Main.py --data-name ml_100k --save-appendix _mnph200 --data-appendix _mnph200 --epochs 40 --max-nodes-per-hop 20 --testing --ensemble --dynamic-train
 
 where the --max-nodes-per-hop argument specifies the maximum number of neighbors to sample for each node during the enclosing subgraph extraction, whose purpose is to limit the subgraph size to accomodate large datasets.
 
